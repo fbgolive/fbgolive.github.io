@@ -1,0 +1,51 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="utf-8" />
+</head>
+<body>
+<script type="text/javascript">
+window.fbAsyncInit = function() {
+  FB.init({
+    appId      : '143326715749102',
+    xfbml      : true,
+    version    : 'v2.8'
+  });
+  FB.AppEvents.logPageView();
+};
+
+(function(d, s, id) {
+  var js, fjs = d.getElementsByTagName(s)[0];
+  if (d.getElementById(id)) {return;}
+  js = d.createElement(s); js.id = id;
+  js.src = "https://connect.facebook.net/en_US/sdk.js";
+  fjs.parentNode.insertBefore(js, fjs);
+}(document, 'script', 'facebook-jssdk'));
+</script>
+
+<button id="liveButton">Create Live Stream To Facebook</button>
+<script>
+document.getElementById('liveButton').onclick = function() {
+  FB.ui({
+    display: 'popup',
+    method: 'live_broadcast',
+    phase: 'create',
+}, function(response) {
+    if (!response.id) {
+      alert('dialog canceled');
+      return;
+    }
+    alert('stream url:' + response.secure_stream_url);
+    FB.ui({
+      display: 'popup',
+      method: 'live_broadcast',
+      phase: 'publish',
+      broadcast_data: response,
+    }, function(response) {
+    alert("video status: \n" + response.status);
+    });
+  });
+};
+</script>
+</body>
+</html>
